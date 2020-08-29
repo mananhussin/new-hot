@@ -340,6 +340,9 @@ a:hover {
     .container {
         flex-direction: column;
     }
+    .jumbotron {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%, 0 100%, 0 0);
+    }
 }
 
 .h-line {
@@ -358,7 +361,6 @@ a:hover {
     outline: none !important;
     box-shadow: none;
 }
-
 
 .guild-card {
     margin-top: 15px;
