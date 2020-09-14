@@ -108,7 +108,6 @@ a:hover {
 .dropdown-menu a {
     margin: 5px;
     justify-content: center;
-    animation: fade 1s;
     transition: all 300ms ease-in-out;
 }
 
@@ -128,7 +127,6 @@ a:hover {
     padding-bottom: 3.5em;
     text-align: center;
     clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%, 0 0);
-    animation: fade 1s;
 }
 
 .card {
@@ -366,7 +364,6 @@ a:hover {
     margin-left: 10px;
     margin-right: 10px;
     transition: all 300ms ease;
-    animation: fade 2s;
 }
 
 .guild-card:hover {
@@ -380,24 +377,10 @@ a:hover {
     max-width: 26rem;
     height: 12rem;
     transition: all 200ms ease-in-out;
-    animation: fade 2.5s;
 }
 
 .home-card:hover {
     margin-top: 5px;    
-}
-
-.card {
-    animation: fade 2s;
-}
-
-@keyframes fade {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
 }
 
 code {
