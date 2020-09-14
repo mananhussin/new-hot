@@ -4,10 +4,11 @@
 
 <body class="theme-dark">
     <%- include('Components/Navbar', { user }) %>
+    <script src="/public/js/manage.js"></script>
 
     <div class="mt-5">
         <img class="center rounded-circle mx-auto d-block" style="text-align:center;max-width: 148px;height:148px"
-            src='<%= guild.iconURL %>'>
+            src='<%- guild.iconURL %>'>
         <h1 class="text-center"><%- guild.name %></h1>
     </div>
 
@@ -25,7 +26,7 @@
             </div>
         </div>
         <div class="card h-100 text-white rounded m-2 bind-theme bind-theme-accent" style="max-width: 12rem;">
-            <form method="POST">
+            <form method="post">
                 <div class="card-body">
                     <div class="form-group">
                         <label for="prefix">Prefix</label>
@@ -46,7 +47,7 @@
     </div>
     <div class="card-group mt-5 align-items-sm-start justify-content-center">
         <div class="card h-100 text-white rounded m-2 bind-theme bind-theme-accent" style="max-width: 32rem;">
-            <form method="POST">
+            <form method="post">
                 <div class="card-body">
                     <div class="card-title" style="text-align: center;">
                         <strong>Welcomer</strong>
@@ -90,7 +91,7 @@
             </form>
         </div>
         <div class="card h-100 text-white rounded m-2 bind-theme bind-theme-accent" style="max-width: 32rem;">
-            <form method="POST">
+            <form method="post">
                 <div class="card-body">
                     <div class="card-title" style="text-align: center;">
                         <strong>Farewell</strong>
@@ -136,7 +137,7 @@
     </div>
     <div class="card-group mt-5 align-items-sm-start justify-content-center">
         <div class="card h-100 text-white rounded m-2 bind-theme bind-theme-accent" style="max-width: 64rem;">
-            <form method="POST">
+            <form method="post">
                 <div class="card-body">
                     <div class="card-title" style="text-align: center;">
                         <strong>Moderation</strong>
@@ -230,108 +231,8 @@
         </div>
     </div>
     <div class="card-group mt-5 justify-content-center">
-        <div class="card h-100 text-white rounded m-2 bind-theme bind-theme-accent" style="max-width: 32rem;">
-            <form method="POST">
-                <div class="card-body">
-                    <div class="card-title" style="text-align: center;">
-                        <strong>Member Verification</strong>
-                    </div>
-                    <div class="form-row justify-content-center">
-                        <div class="form-group col">
-                            <label for="verificationEnabled">Verification</label>
-                            <select class="form-control form-control-sm bind-theme border-black force-theme"
-                                id="verificationEnabled" name="verificationEnabled">
-                                <option value="true" <%- settings.verificationEnabled ? 'selected': ''; %>>On</option>
-                                <option value="false" <%- !settings.verificationEnabled ? 'selected': ''; %>>Off
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group col">
-                            <label for="verificationChannel">Verification Channel</label>
-                            <select class="form-control form-control-sm bind-theme border-black force-theme"
-                                id="verificationChannel" name="verificationChannel">
-                                <option
-                                    value="<%= settings.verificationChannel ? settings.verificationChannel : '';  %>"
-                                    selected hidden>
-                                    <%- settings.verificationChannel && guild.channels.find((c) => c.id === settings.verificationChannel) ? `#${guild.channels.find((c) => c.id === settings.verificationChannel).name}` : 'Select a Channel'; %>
-                                </option>
-                                <% guild.channels.filter((c) => c.type === 'text').forEach((c) => { %>
-                                <option value="<%- c.id %>">#<%- c.name %></option>
-                                <% }) %>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row justify-content-center">
-                        <div class="form-group col">
-                            <label for="verificationType">Verification Type</label>
-                            <select class="form-control form-control-sm bind-theme border-black force-theme"
-                                id="verificationType" name="verificationType">
-                                <option value="discrim"
-                                    <%- settings.verificationType === 'discrim' ? 'selected': ''; %>>Discrim
-                                </option>
-                                <option value="react" <%- settings.verificationType === 'react' ? 'selected': ''; %>>
-                                    Reaction</option>
-                                <option value="captcha" <%- settings.verificationType === 'captcha'? 'selected': ''; %>>
-                                    Captcha</option>
-                            </select>
-                        </div>
-                        <div class="form-group col">
-                            <label for="verificationRole">Verification Role</label>
-                            <select class="form-control form-control-sm bind-theme border-black force-theme"
-                                id="verificationRole" name="verificationRole">
-                                <option value="<%= settings.verificationRole ? settings.verificationRole : '';  %>"
-                                    selected hidden>
-                                    <%- settings.verificationRole && guild.roles.find((c) => c.id === settings.verificationRole) ? `${guild.roles.find((c) => c.id === settings.verificationRole).name}` : 'Select a Role'; %>
-                                </option>
-                                <% guild.roles.forEach((c) => { %>
-                                <option value="<%- c.id %>"><%- c.name %></option>
-                                <% }) %>
-                            </select>
-                            <i>The Role to be given when members verifies themeselves</i>
-                        </div>
-                    </div>
-                    <div class="card-title" style="text-align: center;">
-                        <strong>Ticket System</strong>
-                    </div>
-                    <div class="form-row justify-content-center">
-                        <div class="form-group col">
-                            <label for="ticketEnabled">Ticket System</label>
-                            <select class="form-control form-control-sm bind-theme border-black force-theme"
-                                id="ticketEnabled" name="ticketEnabled">
-                                <option value="true" <%- settings.ticketEnabled ? 'selected': ''; %>>On</option>
-                                <option value="false" <%- !settings.ticketEnabled ? 'selected': ''; %>>Off
-                                </option>
-                            </select>
-                            <i>You can have a role named <code>Support Team</code> so whoevers has that role can access any tickets!</i>
-                        </div>
-                        <div class="form-group col">
-                            <label for="ticketCategory">Ticket Category</label>
-                            <select class="form-control form-control-sm bind-theme border-black force-theme"
-                                id="ticketCategory" name="ticketCategory">
-                                <option
-                                    value="<%= settings.ticketCategory ? settings.ticketCategory : '';  %>"
-                                    selected hidden>
-                                    <%- settings.ticketCategory && guild.channels.find((c) => c.id === settings.ticketCategory) ? `${guild.channels.find((c) => c.id === settings.ticketCategory).name}` : 'Select a Category'; %>
-                                </option>
-                                <% guild.channels.filter((c) => c.type === 'category').forEach((c) => { %>
-                                <option value="<%- c.id %>"><%- c.name %></option>
-                                <% }) %>
-                            </select>
-                            <i>Where tickets are gonna be created</i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div style="text-align: right;">
-                        <button type="submit" class="btn waves-effect green" href="#">
-                            Save
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="card h-100 text-white rounded m-2 bind-theme bind-theme-accent" style="max-width: 32rem;">
-            <form method="POST">
+        <div class="card h-100 text-white rounded m-2 bind-theme bind-theme-accent" style="max-width: 64rem;">
+            <form method="post">
                 <div class="card-body">
                     <div class="card-title" style="text-align: center;">
                         <strong>Dynamic Text/Voice</strong>
@@ -345,7 +246,8 @@
                                 <option value="false" <%- !settings.dynamicEnabled ? 'selected': ''; %>>Off
                                 </option>
                             </select>
-                            <i>You can also have a role named <code>Dynamic Mod</code> so whoevers has that role has full access to all dynamic channels. like a Moderator</i>
+                            <i>You can also have a role named <code>Dynamic Mod</code> so whoevers has that role has
+                                full access to all dynamic channels. like a Moderator</i>
                         </div>
                         <div class="form-group col">
                             <label for="dynamicCategory">Dynamic Category</label>
@@ -388,7 +290,6 @@
             </form>
         </div>
     </div>
-    <script src="/public/js/manage.js"></script>
     <%- include('Components/Footer') %>
 </body>
 

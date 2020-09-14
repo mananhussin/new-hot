@@ -45,7 +45,7 @@ class App extends EventEmitter {
         this.db = {
             users: new UserManager(this),
             guilds: new GuildManager(this),
-        }
+        };
         this.aes = new AES(process.env.AES_KEY);
         this.localdb = new LocalDB(this);
     }
@@ -97,6 +97,15 @@ class App extends EventEmitter {
             }
             this.app.get('/', (req, res) => {
                 this.renderTemplate('index.ejs', req, res);
+            });
+            this.app.get('/400', (req, res) => {
+                this.renderTemplate('400.ejs', req, res, {}, 400);
+            });
+            this.app.get('/403', (req, res) => {
+                this.renderTemplate('403.ejs', req, res, {}, 403);
+            });
+            this.app.get('/500', (req, res) => {
+                this.renderTemplate('500.ejs', req, res, {}, 500);
             });
             this.app.use((req, res) => {
                 this.renderTemplate('404.ejs', req, res, {}, 404);

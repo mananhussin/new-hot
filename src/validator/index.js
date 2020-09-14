@@ -7,17 +7,11 @@ const validKeys = [
     'welcomeChannel', 'welcomeMessage', 'welcomeEnabled',
     'farewellChannel', 'farewellMessage', 'farewellEnabled',
     'inviteFilter', 'swearFilter', 'mentionSpamFilter',
-    'verificationChannel', 'verificationType', 'verificationRole', 'verificationEnabled',
-    'ticketCategory', 'ticketEnabled',
     'dynamicCategory', 'dynamicRoom', 'dynamicEnabled',
 ];
 
 const validActions = [
     'MUTE', 'KICK', 'SOFTBAN', 'BAN'
-];
-
-const validTypes = [
-    'discrim', 'react', 'captcha'
 ];
 
 function filter(body) {
@@ -58,20 +52,6 @@ function validateAction(str) {
     return validActions.includes(str);
 }
 /**
- * @param {string} id
- * @param {{id:string,name:string}[]} roles
- */
-function validateRole(id, roles) {
-    return roles.find((c) => c.id === id);
-}
-/**
- * 
- * @param {string} type 
- */
-function validateType(type) {
-    return validTypes.includes(type);
-}
-/**
  * @param {string} dur
  */
 function validateDuration(dur) {
@@ -97,7 +77,7 @@ function validateBoolean(bool) {
  * @param {{id:string,name:string,type:string}[]} channels
  * @param {{id:string,name:string}[]} roles
  */
-function Validate(body, channels, roles) {
+function Validate(body, channels) {
     if (typeof body !== 'object') throw 1001;
     const data = filter(body);
     const { prefix, modLogChannel, autoModeration, autoModAction, autoModDuration,
@@ -105,8 +85,7 @@ function Validate(body, channels, roles) {
         welcomeChannel, welcomeMessage, welcomeEnabled,
         farewellChannel, farewellMessage, farewellEnabled,
         inviteFilter, swearFilter, mentionSpamFilter,
-        verificationChannel, verificationType, verificationRole, verificationEnabled,
-        ticketCategory, ticketEnabled, dynamicCategory, dynamicRoom, dynamicEnabled,
+        dynamicCategory, dynamicRoom, dynamicEnabled,
     } = data;
 
 
@@ -118,18 +97,14 @@ function Validate(body, channels, roles) {
     if (prefix && prefix.length > 5) throw 1002;
     if ((modLogChannel && !validateTextChannel(modLogChannel, channels)) ||
         (welcomeChannel && !validateTextChannel(welcomeChannel, channels)) ||
-        (farewellChannel && !validateTextChannel(farewellChannel, channels)) ||
-        (verificationChannel && !validateTextChannel(verificationChannel, channels))
+        (farewellChannel && !validateTextChannel(farewellChannel, channels))
     ) throw 1003;
-    if ((ticketCategory && !validateCategoryChannel(ticketCategory, channels)) ||
-        (dynamicCategory && !validateCategoryChannel(dynamicCategory, channels))
+    if ((dynamicCategory && !validateCategoryChannel(dynamicCategory, channels))
     ) throw 1004;
     if (dynamicRoom && !validateVoiceChannel(dynamicRoom, channels)) throw 1005;
     if ((autoModAction && !validateAction(autoModAction)) || 
         (warnThresholdAction && !validateAction(warnThresholdAction))
     ) throw 1006;
-    if (verificationRole && !validateRole(verificationRole, roles)) throw 1007;
-    if (verificationType && !validateType(verificationType)) throw 1008;
     if ((welcomeMessage && welcomeMessage.length > 1024) || 
         (farewellMessage && farewellMessage.length > 1024)
     ) throw 1009;
@@ -143,8 +118,6 @@ function Validate(body, channels, roles) {
         (inviteFilter && !validateBoolean(inviteFilter)) ||
         (swearFilter && !validateBoolean(swearFilter)) ||
         (mentionSpamFilter && !validateBoolean(mentionSpamFilter)) ||
-        (verificationEnabled && !validateBoolean(verificationEnabled)) ||
-        (ticketEnabled && !validateBoolean(ticketEnabled)) ||
         (dynamicEnabled && !validateBoolean(dynamicEnabled))
     ) throw 1012;
 
@@ -166,8 +139,6 @@ function Validate(body, channels, roles) {
     if (inviteFilter) data.inviteFilter = inviteFilter === 'true';
     if (swearFilter) data.swearFilter = swearFilter === 'true';
     if (mentionSpamFilter) data.mentionSpamFilter = mentionSpamFilter === 'true';
-    if (verificationEnabled) data.verificationEnabled = verificationEnabled === 'true';
-    if (ticketEnabled) data.ticketEnabled = ticketEnabled === 'true';
     if (dynamicEnabled) data.dynamicEnabled = dynamicEnabled === 'true';
     /**
      * @conversion

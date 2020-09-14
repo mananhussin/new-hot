@@ -42,19 +42,18 @@ class Dashboard extends Route {
                 const userGuilds = req.user.guilds;
                 const botGuilds = await this.app.bot.getGuilds().catch((e) => { throw e; });
                 const guild = userGuilds.find((g) => g.id === req.params.id && botGuilds.find((bg) => bg === req.params.id));
-                if (!guild) return this.app.renderTemplate('403.ejs', req, res, {}, 403);
+                if (!guild) return res.sendStatus(403);
                 const settings = await this.app.db.guilds.fetch(guild.id).catch((e) => { throw e; });
                 const channels = await this.app.bot.getGuildChannels(guild.id).catch((e) => { throw e; });
                 const roles = await this.app.bot.getGuildRoles(guild.id).catch((e) => { throw e; });
-                if (!req.body) return res.redirect(`/dashboard/manage/${req.params.id}?success=true`);
                 const partial = Validate(req.body, channels, roles);
                 for (const key of Object.keys(partial)) settings[key] = partial[key];
                 await settings.save().catch((e) => { throw e; });
-                res.redirect(`/dashboard/manage/${req.params.id}?success=true`);
+                res.sendStatus(200);
             } catch (e) {
-                if (typeof e === 'number') return res.redirect(`/dashboard/manage/${req.params.id}?error=${e}`);
+                if (typeof e === 'number') return res.sendStatus(e);
                 console.error(e);
-                this.app.renderTemplate('500.ejs', req, res, {}, 500);
+                res.status(500).send(e);
             }
         });
         return this.route;

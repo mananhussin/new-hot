@@ -73,30 +73,6 @@ class Guild {
         /**
          * @type {string}
          */
-        this.verificationChannel = raw.verificationChannel;
-        /**
-         * @type {string}
-         */
-        this.verificationType = raw.verificationType;
-        /**
-         * @type {string}
-         */
-        this.verificationRole = raw.verificationRole;
-        /**
-         * @type {boolean}
-         */
-        this.verificationEnabled = raw.verificationEnabled;
-        /**
-         * @type {string}
-         */
-        this.ticketCategory = raw.ticketCategory;
-        /**
-         * @type {boolean}
-         */
-        this.ticketEnabled = raw.ticketEnabled;
-        /**
-         * @type {string}
-         */
         this.dynamicCategory = raw.dynamicCategory;
         /**
          * @type {string}
@@ -151,12 +127,6 @@ class Guild {
             farewellChannel: this.farewellChannel,
             farewellMessage: this.farewellMessage,
             farewellEnabled: this.farewellEnabled,
-            verificationChannel: this.verificationChannel,
-            verificationType: this.verificationType,
-            verificationRole: this.verificationRole,
-            verificationEnabled: this.verificationEnabled,
-            ticketCategory: this.ticketCategory,
-            ticketEnabled: this.ticketEnabled,
             dynamicCategory: this.dynamicCategory,
             dynamicRoom: this.dynamicRoom,
             dynamicEnabled: this.dynamicEnabled,
